@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSONP Test</title>
+</head>
+<body>
+    <h1>JSONP XSS Test</h1>
+    <div id="result">Waiting for data...</div>
+
+    <script>
+        // Функция-обработчик JSONP
+        function exploit(data) {
+            document.getElementById('result').innerHTML =
+                '<h2>Success!</h2>' +
+                '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+
+            // Покажем alert для наглядности
+            alert('Got data: ' + JSON.stringify(data));
+        }
+    </script>
+
+    <!-- Загружаем JSONP endpoint с нашим callback -->
+    <script src="http://localhost:8000/api/whoami/jsonp?callback=exploit"></script>
+</body>
+</html>
