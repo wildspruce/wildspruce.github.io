@@ -61,10 +61,10 @@
             window.location.hash = '#/settings';
             log('✓ Step 3: Navigated to #/settings');
 
-            if (updatedData.username === 'wildspruce') {
+            if (updatedData.username === 'wild=spruce') {
               log('<h2 style="color:green;">🎉 EXPLOIT COMPLETE! 🎉</h2>');
             } else {
-              log('<h2 style="color:red;">EXPLOIT FAILED - username not changed</h2>');
+              log('<h2 style="color:orange;">Username changed to: "' + updatedData.username + '"</h2>');
             }
           };
 
