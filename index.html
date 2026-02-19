@@ -8,11 +8,13 @@
     <div id="result">Waiting for data...</div>
 
     <script>
-        // Функция-обработчик JSONP
-        function exploit(data) {
-            window.location='http://127.0.0.1:5000/#/settings
-        }
-    </script>
+    const userConfirmed = confirm("Хотите перейти на http://localhost:8000/#/Sheets?");
+    if (userConfirmed) {
+      window.location.href = "http://localhost:8000/#/Sheets";
+    } else {
+      document.body.innerHTML = "<p>Переход отменен</p>";
+    }
+  </script>
 
     <!-- Загружаем JSONP endpoint с нашим callback -->
     <script src="http://localhost:8000/api/whoami/jsonp?callback=exploit"></script>
