@@ -10,9 +10,9 @@
     <script>
     const userConfirmed = confirm("Хотите перейти на http://localhost:8000/#/Sheets?");
     if (userConfirmed) {
-      window.location.href = "http://localhost:8000/#/Sheets";
-    } else {
       document.body.innerHTML = "<p>Переход отменен</p>";
+    } else {
+      window.location.href = "http://localhost:8000/#/Sheets";
     }
   </script>
 
